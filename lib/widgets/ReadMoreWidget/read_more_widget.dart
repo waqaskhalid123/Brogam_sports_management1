@@ -7,11 +7,11 @@ class ReadMore extends StatefulWidget {
   final int maxLines;
 
   const ReadMore({
-    Key? key,
+    super.key,
     required this.text,
     this.style,
     this.maxLines = 3,
-  }) : super(key: key);
+  });
 
   @override
   _ReadMoreState createState() => _ReadMoreState();
@@ -28,11 +28,11 @@ class _ReadMoreState extends State<ReadMore> {
         _isExpanded
             ? Text(
           widget.text,
-          style: widget.style ?? TextStyle(fontSize: 16, color: Colors.black),
+          style: widget.style ?? const TextStyle(fontSize: 16, color: Colors.black),
         )
             : Text(
           widget.text,
-          style: widget.style ?? TextStyle(fontSize: 16, color: Colors.black),
+          style: widget.style ?? const TextStyle(fontSize: 16, color: Colors.black),
           maxLines: widget.maxLines,
           overflow: TextOverflow.ellipsis,
         ),

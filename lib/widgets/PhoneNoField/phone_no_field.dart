@@ -10,6 +10,7 @@ class PhoneNumberField extends StatelessWidget {
 
   @override
   PhoneNumberField({super.key, this.borderColor});
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -25,7 +26,7 @@ class PhoneNumberField extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: DropdownButton<String>(
                 value: _countryCodeController.text,
-                icon: Icon(Icons.arrow_drop_down),
+                icon: const Icon(Icons.arrow_drop_down),
                 onChanged: (String? newValue) {
                   _countryCodeController.text = newValue!;
                 },

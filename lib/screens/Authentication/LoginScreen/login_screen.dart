@@ -9,6 +9,8 @@ import '../../../widgets/CutomTextField/custom_textField.dart';
 import '../ForgotPasswordScreen/forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -39,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   CustomToggle(
                     initialSelectedIndex: 0,
+                    labels: ['Public User', 'Organizer'],
                     onTap: (int selectedIndex) {
                       print("Selected index: $selectedIndex");
                     },
@@ -63,6 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return "Password is required";
                       }
+                      return null;
                     },
                     prefixIcon: const Icon(Icons.email),
                     controller: _emailController,
@@ -76,8 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (value == null || value.isEmpty) {
                         return "Email is required";
                       }
+                      return null;
                     },
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     controller: _passwordController,
                     hintText: 'password',
                     keyboardType: TextInputType.text,
@@ -110,10 +115,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: AppColors.primaryColor,
                         ),
                       ),
-                      SizedBox(width: 20), // Add some space between the text and the "Forgot Password" button
+                      const SizedBox(width: 20), // Add some space between the text and the "Forgot Password" button
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPassword(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPassword(),));
                         },
                         child: Text(
                           'Forgot Password?',
@@ -129,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ActionButton(
                     backgroundColor: AppColors.primaryColor,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
                     },
                     borderColor: AppColors.primaryColor,
                     text: "Sign In",
@@ -163,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center, // Center items vertically
                         children: [
                           Image.asset(Assets.imagesGoogle, height: screenHeight * 0.03),
-                          SizedBox(width: 8), // Add some space between image and text
+                          const SizedBox(width: 8), // Add some space between image and text
                           Text("Continue with Google", style: TextStyle(fontFamily: AppFontsFamily.poppins, color: AppColors.primaryColor, fontWeight: FontWeight.bold),),
                         ],
                       ),
@@ -180,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen(),));
                           },
                           child: Text(
                             'Sign Up',

@@ -6,6 +6,8 @@ import '../../../services/constants/constants.dart';
 import '../../../widgets/CutomActionButton/ActionButton.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
+  const VerificationCodeScreen({super.key});
+
   @override
   _VerificationCodeScreenState createState() => _VerificationCodeScreenState();
 }
@@ -94,7 +96,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                   ActionButton(
                     backgroundColor: AppColors.primaryColor,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ResetPasswordScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ResetPasswordScreen()));
                     },
                     borderColor: AppColors.primaryColor,
                     text: "Verify",

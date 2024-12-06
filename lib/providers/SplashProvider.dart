@@ -4,12 +4,12 @@ import '../screens/Authentication/OnboardingScreen/OnboardingScreen/OnboardingSc
 
 class SplashScreenProvider with ChangeNotifier {
   void navigateToNextScreen(BuildContext context) {
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) {
-            return OnboardingScreen();
+            return const OnboardingScreen();
           },
         ),
       );

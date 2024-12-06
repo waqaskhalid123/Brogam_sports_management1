@@ -2,13 +2,15 @@ import 'package:brogam/widgets/CutomActionButton/ActionButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter/material.dart';
 
 import '../../../../services/constants/constants.dart';
+import '../../../../widgets/CustomDropDown/custom_drop_down.dart';
 import '../../../../widgets/CutomTextField/custom_textField.dart';
 import '../BookingSuccessScreen/booking_success_screen.dart';
 
 class AddCardScreen extends StatefulWidget {
+  const AddCardScreen({super.key});
+
   @override
   _AddCardScreenState createState() => _AddCardScreenState();
 }
@@ -33,12 +35,12 @@ class _AddCardScreenState extends State<AddCardScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
-        title: Text("Add Card", style: TextStyle(color: Colors.black)),
+        title: const Text("Add Card", style: TextStyle(color: Colors.black)),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -58,7 +60,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   ? "Please enter the name on the card"
                   : null,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             CustomField(
               controller: cardNumberController,
               hintText: "Card Number",
@@ -68,7 +70,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   ? "Please enter a valid card number"
                   : null,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
@@ -83,7 +85,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                     },
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: CustomDropdownField(
                     value: selectedYear,
@@ -98,7 +100,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             CustomField(
               controller: cvcController,
               hintText: "CVC",
@@ -108,7 +110,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                   ? "Invalid CVC"
                   : null,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
 
             // Set as default switch
             Row(
@@ -123,7 +125,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
                         isDefault = !isDefault;
                       });
                     },
-                    activeColor: AppColors.secondaryColor,
+                    // activeTrackColor: AppColors.secondaryColor,
                   ),
                 ),
                 const Text(
@@ -136,7 +138,7 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
             // Add Card button
             ActionButton(text: "Add Card", backgroundColor: AppColors.primaryColor, textColor: AppColors.white, borderColor: AppColors.primaryColor, onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => BookingSuccessScreen(),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const BookingSuccessScreen(),));
             }, borderRadius: 25,)
           ],
         ),
@@ -147,44 +149,6 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
 
 
-class CustomDropdownField extends StatelessWidget {
-  final String? value;
-  final String hintText;
-  final List<String> items;
-  final ValueChanged<String?> onChanged;
 
-  CustomDropdownField({
-    required this.value,
-    required this.hintText,
-    required this.items,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 55,
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        color: AppColors.textFiledColor,
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: DropdownButtonFormField<String>(
-        value: value,
-        hint: Text(hintText),
-        items: items
-            .map((item) => DropdownMenuItem(
-          value: item,
-          child: Text(item),
-        ))
-            .toList(),
-        onChanged: onChanged,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-        ),
-      ),
-    );
-  }
-}
 
 

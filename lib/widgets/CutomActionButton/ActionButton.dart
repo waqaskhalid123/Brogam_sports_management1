@@ -13,8 +13,8 @@ class ActionButton extends StatelessWidget {
   final double? buttonWidth;
   final FontWeight? fontweight;
 
-  ActionButton(
-      {required this.text,
+  const ActionButton(
+      {super.key, required this.text,
       required this.backgroundColor,
       required this.textColor,
       required this.borderColor,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Calendar extends StatefulWidget {
+  const Calendar({super.key});
+
   @override
   _CalendarState createState() => _CalendarState();
 }
@@ -38,6 +40,7 @@ class _CalendarState extends State<Calendar> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: AppColors.screenBgColor,
       body: Column(
         children: [
           SizedBox(
@@ -53,7 +56,7 @@ class _CalendarState extends State<Calendar> {
                   onTap: () => _onDaySelected(day),
                   child: Container(
                     width: screenWidth * 0.08,
-                    margin: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                     decoration: BoxDecoration(
                       color: isSelected
                           ? AppColors.secondaryColor
@@ -76,12 +79,12 @@ class _CalendarState extends State<Calendar> {
                             color: isSelected ? Colors.white : Colors.black,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
                           DateFormat('MMM')
                               .format(day), // Month abbreviation (e.g., Jan)
                           style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.black,
+                            color: isSelected ? Colors.white : AppColors.grey,
                           ),
                         ),
                       ],

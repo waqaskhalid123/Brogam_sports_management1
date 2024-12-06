@@ -9,6 +9,8 @@ import '../../../widgets/CutomTextField/custom_textField.dart';
 import '../../../widgets/PhoneNoField/phone_no_field.dart';
 
 class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -39,6 +41,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         
                   CustomToggle(
                     initialSelectedIndex: 0,
+                    labels: ['Public User', 'Organizer'],
                     onTap: (int selectedIndex) {
                       print("Selected index: $selectedIndex");
                     },
@@ -63,6 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return "Full Name is required";
                       }
+                      return null;
                     },
                     prefixIcon: const Icon(Icons.person),
                     controller: _fullNameController,
@@ -75,6 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return "Password is required";
                       }
+                      return null;
                     },
                     prefixIcon: const Icon(Icons.email),
                     controller: _emailController,
@@ -89,8 +94,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (value == null || value.isEmpty) {
                         return "Email is required";
                       }
+                      return null;
                     },
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     controller: _passwordController,
                     hintText: 'password',
                     keyboardType: TextInputType.text,
@@ -141,7 +147,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center, // Center items vertically
                         children: [
                           Image.asset(Assets.imagesGoogle, height: screenHeight * 0.03),
-                          SizedBox(width: 8), // Add some space between image and text
+                          const SizedBox(width: 8), // Add some space between image and text
                           Text("Continue with Google", style: TextStyle(fontFamily: AppFontsFamily.poppins, color: AppColors.primaryColor, fontWeight: FontWeight.bold),),
                         ],
                       ),
@@ -158,7 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                         Navigator.push(context,MaterialPageRoute(builder: (context) => LoginScreen(),));
+                         Navigator.push(context,MaterialPageRoute(builder: (context) => const LoginScreen(),));
                           },
                           child: Text(
                             'Login in Now',

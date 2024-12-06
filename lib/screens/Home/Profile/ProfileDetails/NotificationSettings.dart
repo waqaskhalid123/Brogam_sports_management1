@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 
 class NotificationSettingsScreen extends StatefulWidget {
+  const NotificationSettingsScreen({super.key});
+
   @override
   _NotificationSettingsScreenState createState() =>
       _NotificationSettingsScreenState();

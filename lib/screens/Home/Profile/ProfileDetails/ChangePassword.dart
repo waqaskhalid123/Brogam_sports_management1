@@ -7,19 +7,21 @@ class ChangePassword extends StatelessWidget {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
+  ChangePassword({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Change Password',
           style: TextStyle(
             color: Colors.black,
@@ -32,13 +34,13 @@ class ChangePassword extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             buildPasswordField('Old Password', oldPasswordController),
             buildPasswordField('New Password', newPasswordController),
             buildPasswordField('Confirm Password', confirmPasswordController),
-            Spacer(),
+            const Spacer(),
            PrimaryButton(text: 'Change Password', onPressed: (){}),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -54,11 +56,11 @@ class ChangePassword extends StatelessWidget {
         obscureText: true,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.grey),
+          labelStyle: const TextStyle(color: Colors.grey),
           filled: true,
           fillColor: Colors.grey.shade200,
-          prefixIcon: Icon(Icons.lock_outline, color: Colors.grey),
-          suffixIcon: Icon(Icons.visibility_off, color: Colors.grey),
+          prefixIcon: const Icon(Icons.lock_outline, color: Colors.grey),
+          suffixIcon: const Icon(Icons.visibility_off, color: Colors.grey),
           contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),

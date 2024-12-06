@@ -10,7 +10,7 @@ class CustomGenderField extends StatefulWidget {
   final Color? borderColor;
 
   const CustomGenderField({
-    Key? key,
+    super.key,
     this.hintText,
     this.hintTextColor,
     this.fillColor,
@@ -18,7 +18,7 @@ class CustomGenderField extends StatefulWidget {
     this.validator,
     this.borderRadius,
     this.borderColor,
-  }) : super(key: key);
+  });
 
   @override
   _CustomGenderFieldState createState() => _CustomGenderFieldState();
@@ -55,7 +55,7 @@ class _CustomGenderFieldState extends State<CustomGenderField> {
           });
         },
         validator: widget.validator,
-        decoration: InputDecoration(border: InputBorder.none),
+        decoration: const InputDecoration(border: InputBorder.none),
       ),
     );
   }

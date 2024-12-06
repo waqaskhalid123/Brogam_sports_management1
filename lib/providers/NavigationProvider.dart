@@ -19,11 +19,11 @@ class NavigationProvider with ChangeNotifier {
       case 0:
         return const HomeScreen(); // Your Home Screen
       case 1:
-        return EventScreen(); // Your Events Screen
+        return  EventScreen(); // Your Events Screen
       case 2:
         return BookingsScreen(); // Your Bookings Screen
       case 3:
-        return ProfileDetailsScreen(); // Your Profile Screen
+        return const ProfileDetailsScreen(); // Your Profile Screen
       default:
         return const HomeScreen();
     }

@@ -16,7 +16,7 @@ class VerticalEventCard extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: EdgeInsets.only(right: 20),
+      padding: const EdgeInsets.only(right: 20),
       child: Column(
         children: List.generate(length, (index) {
           // Use the length parameter

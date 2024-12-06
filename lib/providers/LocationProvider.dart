@@ -18,7 +18,7 @@ class LocationProvider extends ChangeNotifier {
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Location service is disabled.")),
+          const SnackBar(content: Text("Location service is disabled.")),
         );
         return;
       }
@@ -30,7 +30,7 @@ class LocationProvider extends ChangeNotifier {
       permissionGranted = await location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Location permission is denied.")),
+          const SnackBar(content: Text("Location permission is denied.")),
         );
         return;
       }
@@ -43,9 +43,9 @@ class LocationProvider extends ChangeNotifier {
 
       // Update marker
       _currentLocationMarker = Marker(
-        markerId: MarkerId('currentLocation'),
+        markerId: const MarkerId('currentLocation'),
         position: LatLng(locationData.latitude!, locationData.longitude!),
-        infoWindow: InfoWindow(title: 'You are here'),
+        infoWindow: const InfoWindow(title: 'You are here'),
       );
 
       notifyListeners();

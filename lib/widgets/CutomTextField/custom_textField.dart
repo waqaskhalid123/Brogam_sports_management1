@@ -10,6 +10,7 @@ class CustomField extends StatelessWidget {
   final String? errorText;
   final Widget? prefixIcon;
   final bool? isNavigate;
+  final bool? readOnly;
   final Function(String)? onChanged;
   final double? height;
   final int? maxLine;
@@ -20,13 +21,14 @@ class CustomField extends StatelessWidget {
   final Color? hintTextColor; // Optional hint text color parameter
   final VoidCallback? onTap;
 
-  CustomField({
+  const CustomField({super.key,
     required this.controller,
     required this.hintText,
     required this.keyboardType,
     this.suffixIcon,
     required this.validator,
     this.maxLine,
+    this.readOnly,
     this.errorText,
     this.prefixIcon,
     this.isNavigate,
@@ -42,58 +44,50 @@ class CustomField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: height ?? 55,
-            child: TextFormField(
-              maxLines: maxLine ?? 1,
-              minLines: 1,
-              validator: validator,
-              controller: controller,
-              keyboardType: keyboardType,
-              onChanged: onChanged,
-              obscureText: obscureText ?? false,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.all(20),
-                hintText: hintText,
-                hintStyle: TextStyle(
-                  color: hintTextColor ?? AppColors.lighyGreyColor1,
-                  fontFamily: AppFontsFamily.poppins,
-                ),
-                filled: true,
-                fillColor: fillColor ?? AppColors.textFiledColor,
-                border: OutlineInputBorder(
-                  borderRadius: borderRadius ?? BorderRadius.circular(25),
-                  borderSide: BorderSide(
-                      color:
-                          borderColor ?? Colors.transparent), // Use borderColor
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: borderRadius ?? BorderRadius.circular(25),
-                  borderSide: BorderSide(
-                      color:
-                          borderColor ?? Colors.grey[300]!), // Use borderColor
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: borderRadius ?? BorderRadius.circular(25),
-                  borderSide: BorderSide(
-                      color: borderColor ??
-                          AppColors.primaryColor), // Use borderColor
-                ),
-                suffixIcon: suffixIcon,
-                suffixIconColor: AppColors.IconColors,
-                errorText: errorText,
-                prefixIcon: prefixIcon,
-                prefixIconColor: AppColors.IconColors,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: height ?? 55,
+          child: TextFormField(
+            maxLines: maxLine ?? 1,
+            minLines: 1,
+            validator: validator,
+            controller: controller,
+            keyboardType: keyboardType,
+            onChanged: onChanged,
+            obscureText: obscureText ?? false,
+            readOnly: readOnly ?? false, // Prevents keyboard from showing up
+            onTap: onTap, // Directly use onTap here
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.all(20),
+              hintText: hintText,
+              hintStyle: TextStyle(
+                color: hintTextColor ?? AppColors.lighyGreyColor1,
+                fontFamily: AppFontsFamily.poppins,
               ),
+              filled: true,
+              fillColor: fillColor ?? AppColors.textFiledColor,
+              // enabledBorder: InputBorder.none,
+              border: OutlineInputBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(25),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(25),
+                borderSide: BorderSide(
+                  color: borderColor ?? AppColors.primaryColor,
+                  width: 0.5, // Thin border width
+                ),
+              ),
+              suffixIcon: suffixIcon,
+              suffixIconColor: AppColors.IconColors,
+              errorText: errorText,
+              prefixIcon: prefixIcon,
+              prefixIconColor: AppColors.IconColors,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

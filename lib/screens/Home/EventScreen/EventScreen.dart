@@ -1,38 +1,74 @@
 import 'package:brogam/services/constants/constants.dart';
 import 'package:brogam/widgets/Calender/calender.dart';
+import 'package:brogam/widgets/CustomRoundContainer/custom_round_container.dart';
 import 'package:brogam/widgets/CutomActionButton/ActionButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/LocationProvider.dart';
+import '../../../widgets/BottomNav/bottomnav.dart';
 import '../../../widgets/CutomTextField/custom_textField.dart';
 import '../../../widgets/HorizontalMapCard/horizontal_map_card.dart';
+import '../BookingsScreen/BookingsScreen.dart';
 import '../EventBookingScreens/EventDetailScreen/event_detail_screen.dart';
+import '../HomeScreen/home_screen.dart';
+import '../Profile/ProfileDetails/ProfileDetails.dart';
 
 class EventScreen extends StatefulWidget {
+  const EventScreen({super.key});
+
   @override
   _EventScreenState createState() => _EventScreenState();
 }
 
 class _EventScreenState extends State<EventScreen> {
-  double _minPrice = 20;
-  double _maxPrice = 120;
   // List<String> selectedCategories = [];
   List<String> items = [
     "Football",
     "Swimming",
     "Aerobics",
-    "Soccer",
-    "Martial Arts"
+    "soccer",
+    "Martial Arts",
   ];
+  String selectedLocation = 'New York, USA'; // Default selected location
+  final List<String> locations = [
+    'New York, USA',
+    'Los Angeles, USA',
+    'Chicago, USA',
+    'Houston, USA',
+    'Miami, USA'
+  ]; // List
   bool isDropdownOpen = false;
   List<String> selectedItems = [];
 
   DateTime selectedDate = DateTime(2024, 10, 2);
   late GoogleMapController _mapController;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
+
+
+  int _currentIndex = 1;
+
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    EventScreen(),
+    BookingsScreen(),
+    ProfileDetailsScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    // Navigate to the selected screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => _screens[index]),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +76,7 @@ class _EventScreenState extends State<EventScreen> {
     // Get the user's current location and move to it
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final locationProvider =
-          Provider.of<LocationProvider>(context, listen: false);
+      Provider.of<LocationProvider>(context, listen: false);
       locationProvider.getCurrentLocation(context).then((_) {
         _moveToCurrentLocation(locationProvider);
       });
@@ -86,7 +122,7 @@ class _EventScreenState extends State<EventScreen> {
                 : {},
           ),
           Positioned(
-            bottom: 10.0,
+            bottom: 100.0,
             left: 0,
             right: 0,
             child: Column(
@@ -107,7 +143,7 @@ class _EventScreenState extends State<EventScreen> {
                           _moveToCurrentLocation(locationProvider);
                         });
                       },
-                      child: Icon(Icons.my_location),
+                      child: const Icon(Icons.my_location),
                     ),
                   ),
                 ),
@@ -123,7 +159,8 @@ class _EventScreenState extends State<EventScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EventDetailScreen()));
+                                    builder: (context) =>
+                                    const EventDetailScreen()));
                           },
                           child: const HorizontalMapCard());
                     },
@@ -133,17 +170,19 @@ class _EventScreenState extends State<EventScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: 40.0, left: 20, right: 20),
+            padding: const EdgeInsets.only(top: 40.0, left: 20, right: 20),
             child: CustomField(
               hintText: "Search",
               controller: _searchController,
               keyboardType: TextInputType.text,
-              validator: (p0) {},
+              validator: (p0) {
+                return null;
+              },
               suffixIcon: GestureDetector(
                 onTap: () {
                   _openFilterDrawer(context);
                 },
-                child: Icon(
+                child: const Icon(
                   CupertinoIcons.slider_horizontal_3,
                 ),
               ),
@@ -152,14 +191,28 @@ class _EventScreenState extends State<EventScreen> {
                 color: AppColors.primaryColor,
               ),
             ),
-          )
+          ),
+          Positioned(
+              left: 15,
+              right: 15,
+              bottom: 20, // Adjust height from bottom
+              child: Bottomnav(
+                currentIndex: _currentIndex,
+                onItemSelected: _onItemTapped,
+              )
+          ),
         ],
       ),
     );
   }
 
+//=========================================================================
+  /// Open the filter drawer to apply filters
   void _openFilterDrawer(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    double lowerValue = 50;
+    double upperValue = 420;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -173,161 +226,457 @@ class _EventScreenState extends State<EventScreen> {
           child: Container(
             padding: const EdgeInsets.all(20),
             height: MediaQuery.of(context).size.height * 0.9,
-            color: Colors.white,
+            color: AppColors.screenBgColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Category Dropdown
-                Text(
-                  'Category',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                Center(
+                  child: CustomRoundedContainer(
+                    width: 150,
+                    height: 5,
+                    backgroundColor: AppColors.grey,
+                    radius: 10,
                   ),
                 ),
-                SizedBox(height: 10),
-
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                SizedBox(height: screenHeight * 0.02),
+                // Wrap content in ListView
+                Expanded(
+                  child: ListView(
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isDropdownOpen = !isDropdownOpen;
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 12.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          child: Wrap(
-                            spacing: 8.0,
-                            runSpacing: 4.0,
-                            children: [
-                              if (selectedItems.isEmpty)
-                                Text(
-                                  'Select Items',
-                                  style: TextStyle(
-                                      fontSize: 14, color: Colors.grey),
-                                )
-                              else
-                                ...selectedItems.map((item) => Chip(
-                                      label: Text(item),
-                                      deleteIcon: Icon(Icons.close, size: 16),
-                                      onDeleted: () {
-                                        setState(() {
-                                          selectedItems.remove(item);
-                                        });
-                                      },
-                                    )),
-                            ],
-                          ),
+                      // Category Section
+                      const Text(
+                        'Category',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
                         ),
                       ),
-                      if (isDropdownOpen)
-                        Container(
-                          margin: EdgeInsets.only(top: 8.0),
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8.0),
-                            border: Border.all(color: Colors.grey),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: items.map((item) {
-                              final isSelected = selectedItems.contains(item);
-                              return InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    if (isSelected) {
-                                      selectedItems.remove(item);
-                                    } else {
-                                      selectedItems.add(item);
-                                    }
-                                  });
-                                },
-                                child: Row(
-                                  children: [
-                                    Checkbox(
-                                      value: isSelected,
-                                      onChanged: (_) {
+                      SizedBox(height: screenHeight * 0.015),
+                      Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isDropdownOpen = !isDropdownOpen;
+                                });
+                              },
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Container(
+                                  padding:
+                                  const EdgeInsets.fromLTRB(15, 12, 15, 12),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(15.0),
+                                  ),
+                                  child: Wrap(
+                                    children: [
+                                      if (selectedItems.isEmpty)
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Select category',
+                                              style: TextStyle(
+                                                color: AppColors.grey,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Icon(
+                                              Iconsax.arrow_down_1_copy,
+                                              color: AppColors.black,
+                                            ),
+                                          ],
+                                        )
+                                      else
+                                      // Use a Row to arrange the chips and arrow horizontally
+                                        Row(
+                                          children: [
+                                            // Horizontal scrolling for the selected items (chips)
+                                            Expanded(
+                                              child: SingleChildScrollView(
+                                                scrollDirection:
+                                                Axis.horizontal,
+                                                child: Row(
+                                                  mainAxisSize:
+                                                  MainAxisSize.min,
+                                                  children:
+                                                  selectedItems.map((item) {
+                                                    return Padding(
+                                                      padding:
+                                                      const EdgeInsets.only(
+                                                          right: 8.0),
+                                                      child: Container(
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          color: AppColors
+                                                              .secondaryColor,
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              10.0),
+                                                        ),
+                                                        padding:
+                                                        const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal:
+                                                            12.0,
+                                                            vertical: 6.0),
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              item,
+                                                              style: TextStyle(
+                                                                fontFamily:
+                                                                AppFontsFamily
+                                                                    .poppins,
+                                                                color: AppColors
+                                                                    .white,
+                                                                fontSize:
+                                                                AppFontSizes
+                                                                    .body,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                width: 8.0),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                setState(() {
+                                                                  selectedItems
+                                                                      .remove(
+                                                                      item);
+                                                                });
+                                                              },
+                                                              child:
+                                                              CustomRoundedContainer(
+                                                                radius: 100,
+                                                                borderColor:
+                                                                AppColors
+                                                                    .white,
+                                                                showBorder:
+                                                                true,
+                                                                padding:
+                                                                const EdgeInsets
+                                                                    .all(2),
+                                                                child: Icon(
+                                                                  Icons.close,
+                                                                  size: 12,
+                                                                  color:
+                                                                  AppColors
+                                                                      .white,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ),
+                                            ),
+                                            // Dropdown arrow, positioned at the end of the chips
+                                            GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  isDropdownOpen =
+                                                  !isDropdownOpen;
+                                                });
+                                              },
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0),
+                                                child: Icon(
+                                                  Iconsax.arrow_down_1_copy,
+                                                  color: AppColors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            if (isDropdownOpen)
+                              Container(
+                                padding: const EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                      color: AppColors.lighyGreyColor1),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: items.map((item) {
+                                    final isSelected =
+                                    selectedItems.contains(item);
+                                    return InkWell(
+                                      onTap: () {
                                         setState(() {
                                           if (isSelected) {
                                             selectedItems.remove(item);
                                           } else {
                                             selectedItems.add(item);
                                           }
+                                          if (selectedItems.isEmpty) {
+                                            isDropdownOpen = false;
+                                          }
+                                          isDropdownOpen = false;
                                         });
                                       },
-                                    ),
-                                    Text(item),
-                                  ],
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 2, horizontal: 8),
+                                        child: Container(
+                                          decoration: isSelected
+                                              ? BoxDecoration(
+                                            color: AppColors.fill,
+                                            borderRadius:
+                                            BorderRadius.circular(
+                                                8.0),
+                                          )
+                                              : null,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 8.0, horizontal: 12.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                item,
+                                                style: TextStyle(
+                                                  fontFamily:
+                                                  AppFontsFamily.poppins,
+                                                  fontSize: AppFontSizes.body,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: isSelected
+                                                      ? Colors.black
+                                                      : Colors.black,
+                                                ),
+                                              ),
+                                              if (isSelected)
+                                                CustomRoundedContainer(
+                                                  padding: const EdgeInsets.all(2),
+                                                  radius: 100,
+                                                  backgroundColor:
+                                                  AppColors.secondaryColor,
+                                                  child: Icon(
+                                                    Icons.check,
+                                                    color: AppColors.white,
+                                                    size: 15,
+                                                  ),
+                                                ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20),
-
-                // Location
-                Text(
-                  'Location',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.green[50],
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.location_on, color: Colors.green[700]),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: Text(
-                          'New York, USA',
-                          style: TextStyle(
-                              fontFamily: AppFontsFamily.poppins,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold),
+                              ),
+                          ],
                         ),
                       ),
-                      Icon(Icons.arrow_drop_down),
+                      SizedBox(height: screenHeight * 0.025),
+                      // Location Section
+                      const Text(
+                        'Location',
+                        style: TextStyle(
+                          fontFamily: AppFontsFamily.poppins,
+                          fontWeight: FontWeight.bold,
+                          fontSize: AppFontSizes.body,
+                        ),
+                      ),
+
+                      // Dropdown for selecting location
+                      SizedBox(height: screenHeight * 0.02),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(15, 7, 15, 7),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: AppColors.lighyGreyColor1),
+                        ),
+                        child: Row(
+                          children: [
+                            CustomRoundedContainer(
+                              padding: const EdgeInsets.all(2),
+                              borderWidth: 10,
+                              borderColor:
+                              AppColors.lightGreen.withOpacity(0.15),
+                              radius: 8,
+                              showBorder: true,
+                              child: Icon(
+                                Icons.location_on_outlined,
+                                color: AppColors.secondaryColor,
+                              ),
+                            ),
+                            const SizedBox(width: 20),
+                            Expanded(
+                              child: DropdownButton<String>(
+                                value: selectedLocation,
+                                isExpanded: true,
+                                underline: const SizedBox(),
+                                icon: Icon(
+                                  Iconsax.arrow_down_1_copy,
+                                  color: AppColors.black,
+                                ),
+                                style: const TextStyle(
+                                  fontFamily: AppFontsFamily.poppins,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                items: locations.map((String location) {
+                                  return DropdownMenuItem<String>(
+                                    value: location,
+                                    child: Text(location),
+                                  );
+                                }).toList(),
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedLocation = newValue!;
+                                  });
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.035),
+                      // Event Price Section
+                      Row(
+                        children: [
+                          const Text(
+                            'Select price range',
+                            style: TextStyle(
+                              fontFamily: AppFontsFamily.poppins,
+                              fontWeight: FontWeight.bold,
+                              fontSize: AppFontSizes.body,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '\$${lowerValue.toStringAsFixed(0)}',
+                            style: TextStyle(
+                                fontFamily: AppFontsFamily.poppins,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.secondaryColor),
+                          ),
+                          Text(
+                            '-\$${upperValue.toStringAsFixed(0)}',
+                            style: TextStyle(
+                                fontFamily: AppFontsFamily.poppins,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.secondaryColor),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: screenHeight * 0.1,
+                        child: FlutterSlider(
+                          values: const [100, 420],
+                          rangeSlider: true,
+                          max: 500,
+                          min: 0,
+                          onDragging: (handlerIndex, lowerValue, upperValue) {
+                            lowerValue = lowerValue;
+                            upperValue = upperValue;
+                            setState(() {});
+                          },
+                          handler: FlutterSliderHandler(
+                            decoration: BoxDecoration(
+                              // shape: BoxShape.circle,
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: AppColors.secondaryColor,
+                                    width: 1.5),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.arrow_left,
+                                  size: 16,
+                                  color: AppColors.primaryColor,
+                                ),
+                                Icon(
+                                  Icons.arrow_right,
+                                  size: 16,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                          rightHandler: FlutterSliderHandler(
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: AppColors.secondaryColor,
+                                    width: 1.5),
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.arrow_left,
+                                  size: 16,
+                                  color: AppColors.primaryColor,
+                                ),
+                                Icon(
+                                  Icons.arrow_right,
+                                  size: 16,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                          trackBar: FlutterSliderTrackBar(
+                            activeTrackBar: BoxDecoration(
+                              color: AppColors
+                                  .secondaryColor, // Color for the active part of the bar
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            inactiveTrackBar: BoxDecoration(
+                              color: AppColors.secondaryColor.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.015),
+                      // Event Date Section
+                      const Text(
+                        'Event Date',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          fontFamily: AppFontsFamily.poppins,
+                        ),
+                      ),
+                      SizedBox(
+                        height: screenHeight * 0.01,
+                      ),
+                      // Calendar
+                      SizedBox(
+                        height: screenHeight * 0.1,
+                        child: const Calendar(),
+                      ),
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
-
-                // Price Range Slider
-
-                SizedBox(height: 20),
-
-                // Event Date
-                Text('Event Date',
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-
                 SizedBox(
-                  height: screenHeight * 0.1,
-                  child: Calendar(),
+                  height: screenHeight * 0.02,
                 ),
-                Spacer(),
-
+                // Buttons remain fixed at the bottom
                 ActionButton(
                   text: 'Apply',
                   backgroundColor: AppColors.primaryColor,
@@ -337,7 +686,7 @@ class _EventScreenState extends State<EventScreen> {
                   borderRadius: 20,
                   fontweight: FontWeight.bold,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ActionButton(
                   text: 'Reset',
                   backgroundColor: AppColors.white,

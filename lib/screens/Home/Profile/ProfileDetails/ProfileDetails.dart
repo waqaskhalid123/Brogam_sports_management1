@@ -1,148 +1,270 @@
 import 'package:brogam/services/constants/constants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../../providers/ProfileProvider.dart';
+import '../../../../widgets/BottomNav/bottomnav.dart';
 import '../../../../widgets/LogoutButton/LogoutButton.dart';
+import '../../BookingsScreen/BookingsScreen.dart';
+import '../../EventScreen/EventScreen.dart';
+import '../../HomeScreen/home_screen.dart';
 
+class ProfileDetailsScreen extends StatefulWidget {
+  const ProfileDetailsScreen({super.key});
 
+  @override
+  State<ProfileDetailsScreen> createState() => _ProfileDetailsScreenState();
+}
 
-class ProfileDetailsScreen extends StatelessWidget {
+class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
+  bool isLocationEnabled = true;
+
+  int _currentIndex = 3;
+
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const EventScreen(),
+    BookingsScreen(),
+    const ProfileDetailsScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+    // Navigate to the selected screen
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => _screens[index]),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final profileProvider = Provider.of<ProfileProvider>(context);
 
     return Scaffold(
-
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            // Profile header with image, name, email, and update button
-            Card(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 3,left: 3),
-                child: Row(
-                  children: [
-                    Container(
-                      height: 70,
-                      child: CircleAvatar(
-                        radius: 30,
-
-                        backgroundImage: AssetImage("assets/images/card2.png"), // Replace with your image asset
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Padding(
-                      padding: const EdgeInsets.only(top:18.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'John',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
+      backgroundColor: AppColors.screenBgColor,
+      body: Stack(
+        children: [
+          // Main content
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ListView(
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 35,
+                          backgroundImage: AssetImage("assets/images/card2.png"),
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'John',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: AppFontSizes.subtitle1,
+                                fontFamily: AppFontsFamily.poppins,
+                              ),
                             ),
-                          ),
-                          Text('john1@gmail.com'),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10,bottom: 10),
-                            child: InkWell(
-                              onTap: (){
+                            const Text(
+                              'john1@gmail.com',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: AppFontsFamily.poppins,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            GestureDetector(
+                              onTap: () {
                                 profileProvider.EditProfileNaviagtion(context);
                               },
                               child: Text(
                                 'Update my information',
-                                style: TextStyle(color: AppColors.primaryColor, decoration: TextDecoration.underline),
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  decoration: TextDecoration.underline,
+                                ),
                               ),
                             ),
-                          ),
-
-
-
-                        ],
-                      ),
+                          ],
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(CupertinoIcons.forward),
+                          color: Colors.grey,
+                        ),
+                      ],
                     ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.arrow_forward_ios),
-                      color: AppColors.black,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                _buildCard(
+                  children: [
+                    _buildListTile(
+                      title: 'Card Details',
+                      icon: CupertinoIcons.creditcard,
+                      onTap: () {},
+                    ),
+                    _buildDivider(),
+                    _buildListTile(
+                      title: 'Change Password',
+                      icon: CupertinoIcons.lock,
+                      onTap: () {
+                        profileProvider.ChangePasswordNaviagtion(context);
+                      },
                     ),
                   ],
                 ),
-              ),
+                const SizedBox(height: 12),
+                _buildCard(
+                  children: [
+                    _buildListTile(
+                      title: 'Notification Settings',
+                      icon: CupertinoIcons.bell,
+                      onTap: () {
+                        profileProvider.NotificationSettingNaviagtion(context);
+                      },
+                    ),
+                    _buildDivider(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: const [
+                              Icon(CupertinoIcons.location, color: Colors.black),
+                              SizedBox(width: 16),
+                              Text(
+                                'Location',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          Transform.scale(
+                            scale: 0.8,
+                            child: CupertinoSwitch(
+                              activeColor: AppColors.secondaryColor,
+                              value: isLocationEnabled,
+                              onChanged: (value) {
+                                setState(() {
+                                  isLocationEnabled = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                _buildCard(
+                  children: [
+                    _buildListTile(
+                      title: 'Help & Support',
+                      icon: CupertinoIcons.question_circle,
+                      onTap: () {},
+                    ),
+                    _buildDivider(),
+                    _buildListTile(
+                      title: 'FAQs',
+                      icon: CupertinoIcons.info_circle,
+                      onTap: () {},
+                    ),
+                    _buildDivider(),
+                    _buildListTile(
+                      title: 'Privacy Policy',
+                      icon: CupertinoIcons.lock_shield,
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 48,
+                  child: LogoutButton(
+                    text: 'Logout',
+                    onPressed: () {},
+                  ),
+                ),
+                const SizedBox(height: 12),
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "Delete Account",
+                    style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      fontSize: 16,
+                      fontFamily: AppFontsFamily.poppins,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            // List of options/settings
-            buildListTile(title: 'Card Details', icon:Icons.credit_card, onTap: () {  }),
-            buildListTile(title: 'Change Password',icon: Icons.lock, onTap: () { profileProvider.ChangePasswordNaviagtion(context); }),
-            buildListTile(title: 'Notification Settings',icon: Icons.notifications_none_outlined, onTap: () {profileProvider.NotificationSettingNaviagtion(context);  }),
-            // buildSwitchTile('Location', true),
-            buildListTile(title: 'Help & Support',icon: Icons.help_outline, onTap: () {  }),
-            buildListTile(title: 'FAQs',icon:  Icons.question_answer, onTap: () {  }),
-            buildListTile(title: 'Privacy Policy',icon:  Icons.privacy_tip, onTap: () {  }),
-            const SizedBox(height: 20),
-            LogoutButton(text: 'Logout', onPressed: () {  },),
-            // Logout and Delete account buttons
-           TextButton(onPressed: (){}, child: Text("Delete Account",style: TextStyle(
-             decoration: TextDecoration.underline,
-             fontSize: 16,
-             fontFamily: AppFontsFamily.poppins,
-             color: AppColors.CancelRed,
-           ),))
-          ],
-        ),
+          ),
+
+          // Bottom Navigation
+          Positioned(
+            left: 15,
+            right: 15,
+            bottom: 20,
+            child: Bottomnav(
+              currentIndex: _currentIndex,
+              onItemSelected: _onItemTapped,
+            ),
+          ),
+        ],
       ),
     );
   }
 
+  Widget _buildCard({required List<Widget> children}) {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: children,
+      ),
+    );
+  }
 
-  ListTile buildListTile({
+  Widget _buildListTile({
     required String title,
     required IconData icon,
     required VoidCallback onTap,
   }) {
     return ListTile(
-      leading: Icon(icon),
-      title: Text(title),
-      trailing: Icon(Icons.arrow_forward_ios,color: AppColors.black,),
-      onTap: onTap, // Call the required onTap function
+      leading: Icon(icon, color: Colors.black),
+      title: Text(
+        title,
+        style:  TextStyle(fontSize: AppFontSizes.body, fontFamily: AppFontsFamily.poppins),
+      ),
+      trailing: const Icon(CupertinoIcons.forward, color: Colors.grey),
+      onTap: onTap,
     );
   }
 
-  // Helper method for creating a switchable list tile (Location)
-  // ListTile buildSwitchTile(String title, bool value) {
-  //   return ListTile(
-  //     leading: Icon(Icons.location_on, ),
-  //     title: Text(title),
-  //     trailing:  GFToggle(
-  //       onChanged: (val){},
-  //       value: true,
-  //       enabledThumbColor:Colors.white,
-  //       type: GFToggleType.ios,
-  //       enabledTrackColor: AppColors.primaryColor,
-  //     )
-  //   );
-  // }
-
-  // Helper method for creating buttons (Logout, Delete account)
-  ElevatedButton buildButton(String title, Color color, VoidCallback onPressed) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-      ),
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-      ),
+  Widget _buildDivider() {
+    return Divider(
+      height: 1,
+      thickness: 1,
+      color: Colors.grey.withOpacity(0.3),
     );
   }
 }

@@ -3,6 +3,8 @@ import 'package:brogam/widgets/CutomActionButton/ActionButton.dart';
 import 'package:flutter/material.dart';
 
 class BookingSuccessScreen extends StatelessWidget {
+  const BookingSuccessScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -84,7 +86,7 @@ class BookingSuccessScreen extends StatelessWidget {
                         height: screenHeight * 0.1,
                         fit: BoxFit.cover,
                       ),
-                      Text("124345465366756"),
+                      const Text("124345465366756"),
                     ],
                   ),
                 ),
@@ -113,11 +115,11 @@ class BookingSuccessScreen extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),

@@ -5,6 +5,8 @@ import '../../../../widgets/VerticalEventCard/vertical_event_card.dart';
 import '../AddCardScreen/add_card_screen.dart';
 
 class ReviewTicketSummaryScreen extends StatefulWidget {
+  const ReviewTicketSummaryScreen({super.key});
+
   @override
   _ReviewTicketSummaryScreenState createState() => _ReviewTicketSummaryScreenState();
 }
@@ -147,7 +149,7 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
             ),
             trailing:  const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AddCardScreen(),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCardScreen(),));
             },
           ),
         ),

@@ -71,7 +71,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             ActionButton(
                 text: 'Buy Tickets',
                 backgroundColor: AppColors.primaryColor,
@@ -440,7 +440,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => EventBookingDetailScreen(),
+                            builder: (context) => const EventBookingDetailScreen(),
                           ));
                     })
               ],

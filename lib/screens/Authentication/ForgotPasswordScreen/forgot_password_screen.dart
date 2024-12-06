@@ -1,14 +1,13 @@
-import 'package:brogam/screens/Authentication/SignUpScreen/signup_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../generated/assets.dart';
 import '../../../services/constants/constants.dart';
-import '../../../widgets/CustomToggle/custom_toggle.dart';
 import '../../../widgets/CutomActionButton/ActionButton.dart';
 import '../../../widgets/CutomTextField/custom_textField.dart';
-import '../../../widgets/PhoneNoField/phone_no_field.dart';
 import '../VerificationCodeScreen/verification_code_screen.dart';
 
 class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
+
   @override
   _ForgotPasswordState createState() => _ForgotPasswordState();
 }
@@ -17,7 +16,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _fullNameController = TextEditingController();
-  bool _isChecked = false;
+  final bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -66,6 +65,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       if (value == null || value.isEmpty) {
                         return "Email is required";
                       }
+                      return null;
                     },
                     prefixIcon: const Icon(Icons.email),
                     controller: _emailController,
@@ -76,7 +76,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ActionButton(
                     backgroundColor: AppColors.primaryColor,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => VerificationCodeScreen(),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const VerificationCodeScreen(),));
                     },
                     borderColor: AppColors.primaryColor,
                     text: "Submit",

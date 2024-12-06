@@ -5,6 +5,8 @@ import '../../../widgets/CutomActionButton/ActionButton.dart';
 import '../../../widgets/CutomTextField/custom_textField.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
+
   @override
   _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
@@ -49,8 +51,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       if (value == null || value.isEmpty) {
                         return "Password is required";
                       }
+                      return null;
                     },
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     controller: _passwordController,
                     hintText: 'password',
                     keyboardType: TextInputType.text,
@@ -72,8 +75,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       if (value == null || value.isEmpty) {
                         return "Password is required";
                       }
+                      return null;
                     },
-                    prefixIcon: Icon(Icons.lock),
+                    prefixIcon: const Icon(Icons.lock),
                     controller: _passwordController,
                     hintText: 'Confirm Password',
                     keyboardType: TextInputType.text,

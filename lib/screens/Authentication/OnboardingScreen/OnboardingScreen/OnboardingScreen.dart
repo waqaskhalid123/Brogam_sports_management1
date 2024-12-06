@@ -8,7 +8,7 @@ import '../../../../widgets/PageIndicator/SmoothPageIndicator.dart';
 import '../../../../widgets/PrimaryButton/CustomPrimaryButton.dart';
 
 class OnboardingScreen extends StatefulWidget {
-  OnboardingScreen({super.key});
+  const OnboardingScreen({super.key});
 
   @override
   State<OnboardingScreen> createState() => _OnboardingScreenState();

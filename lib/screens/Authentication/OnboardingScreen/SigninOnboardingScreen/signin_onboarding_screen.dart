@@ -6,6 +6,8 @@ import '../../../../services/constants/constants.dart';
 import '../../../../widgets/CutomActionButton/ActionButton.dart';
 
 class SigninOnboardingScreen extends StatefulWidget {
+  const SigninOnboardingScreen({super.key});
+
   @override
   _SigninOnboardingScreenState createState() => _SigninOnboardingScreenState();
 }
@@ -56,7 +58,7 @@ class _SigninOnboardingScreenState extends State<SigninOnboardingScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center, // Center items vertically
                         children: [
                           Image.asset(Assets.imagesGoogle, height: screenHeight * 0.03),
-                          SizedBox(width: 8), // Add some space between image and text
+                          const SizedBox(width: 8), // Add some space between image and text
                           Text("Continue with Google", style: TextStyle(fontFamily: AppFontsFamily.poppins, color: AppColors.primaryColor, fontWeight: FontWeight.bold, fontSize: AppFontSizes.body),),
                         ],
                       ),
@@ -78,7 +80,7 @@ class _SigninOnboardingScreenState extends State<SigninOnboardingScreen> {
                   ActionButton(
                     backgroundColor: AppColors.primaryColor,
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen(),));
                     },
                     borderColor: AppColors.primaryColor,
                     text: "Sign In With Email",
@@ -97,7 +99,7 @@ class _SigninOnboardingScreenState extends State<SigninOnboardingScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen(),));
                           },
                           child: Text(
                             'Sign Up',

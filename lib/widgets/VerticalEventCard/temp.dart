@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MultiSelectDropdown extends StatefulWidget {
+  const MultiSelectDropdown({super.key});
+
   @override
   _MultiSelectDropdownState createState() => _MultiSelectDropdownState();
 }
@@ -15,18 +17,18 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Multi-Select Dropdown'),
+        title: const Text('Multi-Select Dropdown'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Select Fruits:',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
                 setState(() {
@@ -34,7 +36,7 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                 });
               },
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 12.0),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(8.0),
@@ -44,14 +46,14 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                   runSpacing: 4.0,
                   children: [
                     if (selectedItems.isEmpty)
-                      Text(
+                      const Text(
                         'Select Items',
                         style: TextStyle(fontSize: 14, color: Colors.grey),
                       )
                     else
                       ...selectedItems.map((item) => Chip(
                             label: Text(item),
-                            deleteIcon: Icon(Icons.close, size: 16),
+                            deleteIcon: const Icon(Icons.close, size: 16),
                             onDeleted: () {
                               setState(() {
                                 selectedItems.remove(item);
@@ -64,8 +66,8 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
             ),
             if (isDropdownOpen)
               Container(
-                margin: EdgeInsets.only(top: 8.0),
-                padding: EdgeInsets.all(8.0),
+                margin: const EdgeInsets.only(top: 8.0),
+                padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8.0),

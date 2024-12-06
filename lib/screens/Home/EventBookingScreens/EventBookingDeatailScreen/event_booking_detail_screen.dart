@@ -191,7 +191,7 @@ class EventBookingDetailScreen extends StatelessWidget {
                   hintText: 'Select Gender',
                   hintTextColor: AppColors.IconColors,
                   fillColor: AppColors.textFiledColor,
-                  suffixIcon: const Icon(Icons.keyboard_arrow_down),
+                  suffixIcon: Icon(Icons.keyboard_arrow_down),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please select your gender';
@@ -224,7 +224,7 @@ class EventBookingDetailScreen extends StatelessWidget {
                   hintTextColor: AppColors.IconColors,
                   keyboardType: TextInputType.text,
                   fillColor: AppColors.textFiledColor,
-                  suffixIcon: const Icon(Icons.calendar_today),
+                  suffixIcon: Icon(Icons.calendar_today),
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Please select your date of birth';
@@ -244,7 +244,7 @@ class EventBookingDetailScreen extends StatelessWidget {
                   borderColor: AppColors.primaryColor,
                   borderRadius: 20,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const ReviewTicketSummaryScreen(),));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewTicketSummaryScreen(),));
                   },
                 ),
               ],

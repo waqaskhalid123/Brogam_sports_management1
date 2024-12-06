@@ -1,21 +1,26 @@
+import 'package:brogam/widgets/CutomActionButton/ActionButton.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../generated/assets.dart';
-import '../../../../widgets/PrimaryButton/CustomPrimaryButton.dart';
+import '../../../../services/constants/constants.dart';
+import '../../../../widgets/CustomDropDown/custom_drop_down.dart';
+import '../../../../widgets/CutomTextField/custom_textField.dart';
 
 class EditProfile extends StatefulWidget {
+  const EditProfile({super.key});
+
   @override
   _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
   final TextEditingController fullNameController =
-      TextEditingController(text: null);
+  TextEditingController(text: null);
   final TextEditingController emailController =
-      TextEditingController(text: null);
+  TextEditingController(text: null);
   final TextEditingController phoneController =
-      TextEditingController(text: null);
+  TextEditingController(text: null);
   final TextEditingController dobController = TextEditingController(text: null);
   String selectedCountry = "United States";
   String selectedGender = "Male";
@@ -42,10 +47,9 @@ class _EditProfileState extends State<EditProfile> {
             // Profile Picture with Edit Icon
             Stack(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage(Assets
-                      .imagesProfileImage), // Replace with your image asset
+                  backgroundImage: AssetImage(Assets.imagesProfileImage),
                 ),
                 Positioned(
                   bottom: -20,
@@ -79,17 +83,50 @@ class _EditProfileState extends State<EditProfile> {
             ),
             const SizedBox(height: 20),
             // Input Fields
-            buildInputField("Full name", fullNameController),
-            buildInputField("Email Address", emailController),
-            buildInputNumberField("Phone number", phoneController),
+            CustomField(
+              controller: fullNameController,
+              hintText: 'Full name',
+              keyboardType: TextInputType.text,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Full name is required";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 15),
+            CustomField(
+              controller: emailController,
+              hintText: 'Email Address',
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Email address is required";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 15),
+            CustomField(
+              controller: phoneController,
+              hintText: 'Phone number',
+              keyboardType: TextInputType.phone,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Phone number is required";
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 15),
             Row(
               children: [
                 Expanded(
-                  child: buildDropdownField(
-                    "Country",
-                    ["United States", "Canada", "India"],
-                    selectedCountry,
-                    (value) {
+                  child: CustomDropdownField(
+                    value: selectedCountry,
+                    hintText: "Country",
+                    items: ["United States", "Canada", "India"],
+                    onChanged: (value) {
                       setState(() {
                         selectedCountry = value!;
                       });
@@ -98,11 +135,11 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: buildDropdownField(
-                    "Gender",
-                    ["Male", "Female", "Other"],
-                    selectedGender,
-                    (value) {
+                  child: CustomDropdownField(
+                    value: selectedGender,
+                    hintText: "Gender",
+                    items: ["Male", "Female", "Other"],
+                    onChanged: (value) {
                       setState(() {
                         selectedGender = value!;
                       });
@@ -111,170 +148,58 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 10),
-              child: buildInputField(
-                "Date of Birth",
-                dobController,
-                readOnly: true,
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime(1998, 6, 26),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                  );
-                  if (pickedDate != null) {
-                    setState(() {
-                      dobController.text =
-                          DateFormat("dd/MM/yyyy").format(pickedDate);
-                    });
-                  }
-                },
-              ),
+            const SizedBox(height: 15),
+            CustomField(
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime(1998, 6, 26),
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now(),
+                );
+                if (pickedDate != null) {
+                  setState(() {
+                    dobController.text =
+                        DateFormat("dd/MM/yyyy").format(pickedDate);
+                  });
+                }
+              },
+              controller: dobController,
+              hintText: "Date of Birth",
+              keyboardType: TextInputType.none,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return "Date of birth is required";
+                }
+                return null;
+              },
             ),
             const SizedBox(height: 20),
             // Buttons
-            PrimaryButton(text: "Update", onPressed: () {}),
-            SizedBox(
-              height: 20,
+            ActionButton(
+              text: "Update",
+              backgroundColor: AppColors.primaryColor,
+              textColor: AppColors.white,
+              borderColor: AppColors.primaryColor,
+              onPressed: () {
+                // Handle update
+              },
+              borderRadius: 25,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: MediaQuery.of(context).size.height *
-                  0.06, // Adjust height dynamically
-              child: OutlinedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Colors.green),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
-                child: const Text(
-                  "Dismiss",
-                  style: TextStyle(fontSize: 16, color: Colors.green),
-                ),
-              ),
+            const SizedBox(height: 15),
+            ActionButton(
+              text: "Dismiss",
+              backgroundColor: AppColors.white,
+              textColor: AppColors.primaryColor,
+              borderColor: AppColors.primaryColor,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              borderRadius: 25,
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget buildInputField(
-    String label,
-    TextEditingController controller, {
-    TextInputType keyboardType = TextInputType.text,
-    bool readOnly = false,
-    VoidCallback? onTap,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        readOnly: readOnly,
-        onTap: onTap,
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: const TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
-          ),
-          filled: true,
-          fillColor: Colors.grey.shade200,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
-              color: Colors.grey.shade400,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildInputNumberField(
-    String label,
-    TextEditingController controller, {
-    TextInputType keyboardType = TextInputType.text,
-    bool readOnly = false,
-    VoidCallback? onTap,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: TextField(
-        controller: controller,
-        keyboardType: keyboardType,
-        readOnly: readOnly,
-        onTap: onTap,
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: const TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
-          ),
-          filled: true,
-          fillColor: Colors.grey.shade200,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(
-              color: Colors.grey.shade400,
-            ),
-          ),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.all(8.0), // Add padding around the image
-            child: Image.asset(
-              Assets.imagesUsaFlag, // Replace with your image asset path
-              width: 24,
-              height: 24,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildDropdownField(
-    String label,
-    List<String> items,
-    String value,
-    ValueChanged<String?> onChanged,
-  ) {
-    return DropdownButtonFormField<String>(
-      value: value,
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-      ),
-      items: items
-          .map((item) => DropdownMenuItem(value: item, child: Text(item)))
-          .toList(),
-      onChanged: onChanged,
     );
   }
 }

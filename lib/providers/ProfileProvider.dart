@@ -12,7 +12,7 @@ class ProfileProvider with ChangeNotifier {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return EditProfile();
+          return  EditProfile();
         },
       ),
     );
@@ -35,7 +35,7 @@ class ProfileProvider with ChangeNotifier {
       context,
       MaterialPageRoute(
         builder: (context) {
-          return NotificationSettingsScreen ();
+          return const NotificationSettingsScreen ();
         },
       ),
     );}
