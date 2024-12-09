@@ -1,30 +1,30 @@
 import 'package:brogam/providers/bookingScreenProvider.dart';
+import 'package:brogam/screens/Home/EventBookingScreens/BookingSuccessScreen/booking_success_screen.dart';
+import 'package:brogam/screens/Home/ExploreScreen/ExploreScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../services/constants/constants.dart';
 import '../../../widgets/BottomNav/bottomnav.dart';
 import '../../../widgets/CustomRoundContainer/custom_round_container.dart';
 import '../../../widgets/CustomToggle/custom_toggle.dart';
-import '../EventScreen/EventScreen.dart';
 import '../HomeScreen/home_screen.dart';
 import '../Profile/ProfileDetails/ProfileDetails.dart';
 
 class BookingsScreen extends StatefulWidget {
+  const BookingsScreen({super.key});
+
   @override
   State<BookingsScreen> createState() => _BookingsScreenState();
 }
 
 class _BookingsScreenState extends State<BookingsScreen> {
-
-
-
   int _currentIndex = 2;
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    EventScreen(),
-    BookingsScreen(),
-    ProfileDetailsScreen(),
+    ExploreScreen(),
+    const BookingsScreen(),
+    const ProfileDetailsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -37,6 +37,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
       MaterialPageRoute(builder: (context) => _screens[index]),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -49,7 +50,8 @@ class _BookingsScreenState extends State<BookingsScreen> {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0), // Horizontal margin
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 20.0), // Horizontal margin
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -68,11 +70,12 @@ class _BookingsScreenState extends State<BookingsScreen> {
                     child: SizedBox(
                       width: screenWidth * 0.7,
                       child: CustomToggle(
-                        initialSelectedIndex: bookingsProvider.selectedToggleIndex,
+                        initialSelectedIndex:
+                            bookingsProvider.selectedToggleIndex,
                         onTap: (int selectedIndex) {
                           bookingsProvider.updateSelectedToggle(selectedIndex);
                         },
-                        labels: ['Ongoing', 'Completed'],
+                        labels: const ['Ongoing', 'Completed'],
                       ),
                     ),
                   ),
@@ -89,10 +92,11 @@ class _BookingsScreenState extends State<BookingsScreen> {
                   // Booking List
                   Expanded(
                     child: ListView(
-                      padding: const EdgeInsets.only(bottom: 80), // Extra padding for the floating nav
+                      padding: const EdgeInsets.only(
+                          bottom: 80), // Extra padding for the floating nav
                       children: List.generate(
                         10,
-                            (index) => Container(
+                        (index) => Container(
                           margin: const EdgeInsets.only(bottom: 20),
                           padding: const EdgeInsets.all(5),
                           decoration: BoxDecoration(
@@ -122,8 +126,11 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                       child: Image.asset(
                                         "assets/images/card2.png",
                                         height:
-                                        MediaQuery.of(context).size.height * 0.15,
-                                        width: MediaQuery.of(context).size.width * 0.4,
+                                            MediaQuery.of(context).size.height *
+                                                0.15,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.4,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -131,19 +138,21 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                   const SizedBox(width: 12.0),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         CustomRoundedContainer(
                                           height: screenHeight * 0.025,
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 3, horizontal: 5),
                                           backgroundColor:
-                                          AppColors.fill.withOpacity(1),
+                                              AppColors.fill.withOpacity(1),
                                           radius: 25,
                                           child: Text(
                                             'Swimming',
                                             style: TextStyle(
-                                              fontFamily: AppFontsFamily.poppins,
+                                              fontFamily:
+                                                  AppFontsFamily.poppins,
                                               fontSize: 10,
                                               fontWeight: FontWeight.w600,
                                               color: AppColors.secondaryColor
@@ -176,7 +185,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                                   color: AppColors.grey,
                                                   fontSize: 12,
                                                   fontFamily:
-                                                  AppFontsFamily.poppins),
+                                                      AppFontsFamily.poppins),
                                             ),
                                             const SizedBox(width: 16.0),
                                             Icon(
@@ -191,7 +200,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                                   color: AppColors.grey,
                                                   fontSize: 12,
                                                   fontFamily:
-                                                  AppFontsFamily.poppins),
+                                                      AppFontsFamily.poppins),
                                             ),
                                           ],
                                         ),
@@ -202,7 +211,8 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                               color: AppColors.secondaryColor,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
-                                              fontFamily: AppFontsFamily.poppins),
+                                              fontFamily:
+                                                  AppFontsFamily.poppins),
                                         ),
                                       ],
                                     ),
@@ -213,17 +223,21 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                 padding: const EdgeInsets.only(top: 10),
                                 child: Row(
                                   mainAxisAlignment:
-                                  bookingsProvider.selectedToggleIndex == 1
-                                      ? MainAxisAlignment.center
-                                      : MainAxisAlignment.spaceEvenly,
+                                      bookingsProvider.selectedToggleIndex == 1
+                                          ? MainAxisAlignment.center
+                                          : MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    if (bookingsProvider.selectedToggleIndex == 0)
+                                    if (bookingsProvider.selectedToggleIndex ==
+                                        0)
                                       InkWell(
                                         onTap: () {},
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            color: AppColors.CancelRed.withOpacity(0.2),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            color:
+                                                AppColors.CancelRed.withOpacity(
+                                                    0.2),
                                           ),
                                           height: screenHeight * 0.05,
                                           width: screenWidth * 0.38,
@@ -234,21 +248,35 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                                 color: AppColors.CancelRed,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14.0,
-                                                fontFamily: AppFontsFamily.poppins,
+                                                fontFamily:
+                                                    AppFontsFamily.poppins,
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                BookingSuccessScreen(
+                                              isBooking: true,
+                                            ),
+                                          ),
+                                        );
+                                      },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           color: AppColors.primaryColor,
                                         ),
                                         height: screenHeight * 0.05,
-                                        width: bookingsProvider.selectedToggleIndex == 1
+                                        width: bookingsProvider
+                                                    .selectedToggleIndex ==
+                                                1
                                             ? screenWidth * 0.85
                                             : screenWidth * 0.4,
                                         child: Center(
@@ -258,7 +286,8 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                               fontWeight: FontWeight.bold,
                                               color: AppColors.white,
                                               fontSize: 14.0,
-                                              fontFamily: AppFontsFamily.poppins,
+                                              fontFamily:
+                                                  AppFontsFamily.poppins,
                                             ),
                                           ),
                                         ),

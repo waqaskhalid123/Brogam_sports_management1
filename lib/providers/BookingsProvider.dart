@@ -13,7 +13,7 @@ class BookingProvider with ChangeNotifier {
     notifyListeners();
   }
   void navigateToTicket(BuildContext context) {
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -26,12 +26,12 @@ class BookingProvider with ChangeNotifier {
     });
   }
   void navigateToProfile(BuildContext context) {
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) {
-            return ProfileDetailsScreen();
+            return const ProfileDetailsScreen();
           },
         ),
       );

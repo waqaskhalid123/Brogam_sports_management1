@@ -25,7 +25,7 @@ class EmptyNotifications extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            icon: Icon(Icons.arrow_back)),
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: Column(
         children: [
@@ -55,8 +55,8 @@ class EmptyNotifications extends StatelessWidget {
               ),
               SizedBox(height: screenHeight * 0.01),
               Container(
-                margin: EdgeInsets.only(right: 60, left: 60),
-                child: Text(
+                margin: const EdgeInsets.only(right: 60, left: 60),
+                child: const Text(
                   'Your notifications will appear on this page',
                   style: TextStyle(
                     fontSize: 14,

@@ -1,14 +1,16 @@
+import 'package:brogam/services/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class Bottomnav extends StatelessWidget {
   final int currentIndex;
   final Function(int) onItemSelected;
 
   const Bottomnav({
-    Key? key,
+    super.key,
     required this.currentIndex,
     required this.onItemSelected,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,26 +34,34 @@ class Bottomnav extends StatelessWidget {
           currentIndex: currentIndex,
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.white,
-          selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.grey,
+          selectedItemColor: AppColors.primaryColor,
+          unselectedItemColor: AppColors.bottomIcon,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           onTap: onItemSelected,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: currentIndex == 0
+                  ? const Icon(Iconsax.home_2)
+                  : const Icon(Iconsax.home_2_copy),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.explore),
+              icon: currentIndex == 1
+                  ? const Icon(Iconsax.map)
+                  : const Icon(Iconsax.map_1_copy),
               label: 'Explore',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.book),
+              icon: currentIndex == 2
+                  ? const Icon(Iconsax.note)
+                  : const Icon(Iconsax.note_1_copy),
               label: 'Bookings',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: currentIndex == 3
+                  ? const Icon(Iconsax.user)
+                  : const Icon(Iconsax.user_copy),
               label: 'Profile',
             ),
           ],

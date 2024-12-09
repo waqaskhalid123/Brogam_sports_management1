@@ -5,12 +5,14 @@ import 'package:provider/provider.dart';
 import '../../Providers/BookingsProvider.dart';
 
 class BookingsToggle extends StatelessWidget {
+  const BookingsToggle({super.key});
+
   @override
   Widget build(BuildContext context) {
     final bookingProvider = Provider.of<BookingProvider>(context);
 
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(8.0),
@@ -34,7 +36,7 @@ class BookingsToggle extends StatelessWidget {
             child: Container(
               width: 105,
               height: 41,
-              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               decoration: BoxDecoration(
                 color: bookingProvider.isOngoing ? AppColors.primaryColor : Colors.transparent,
                 borderRadius: BorderRadius.circular(16.0),
@@ -50,7 +52,7 @@ class BookingsToggle extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 8.0),
+          const SizedBox(width: 8.0),
           // Completed Button
           GestureDetector(
             onTap: () {
@@ -59,7 +61,7 @@ class BookingsToggle extends StatelessWidget {
             child: Container(
               height: 41,
               width: 105,
-              padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               decoration: BoxDecoration(
                 color: bookingProvider.isOngoing ? Colors.transparent : AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(16.0),

@@ -35,7 +35,7 @@ class _CustomGenderFieldState extends State<CustomGenderField> {
         borderRadius: widget.borderRadius,
         border: Border.all(color: widget.borderColor!),
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: DropdownButtonFormField<String>(
         value: _selectedGender,
         hint: Text(

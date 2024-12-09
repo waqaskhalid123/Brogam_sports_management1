@@ -1,6 +1,7 @@
 import 'package:brogam/services/constants/constants.dart';
 import 'package:brogam/widgets/CustomRoundedContainer/custom_rounded_container.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class HorizontalEventCard extends StatelessWidget {
   const HorizontalEventCard({
@@ -14,7 +15,8 @@ class HorizontalEventCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: SizedBox(
-        height: screenHeight * 0.24, //card height
+        height: screenHeight * 0.25, //card height
+        // height: 225, //card height
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: 5,
@@ -25,7 +27,7 @@ class HorizontalEventCard extends StatelessWidget {
                 width: screenWidth * 0.65, //card width
                 backgroundColor: AppColors.white,
                 radius: 12,
-                borderColor: AppColors.lighyGreyColor1,
+                borderColor: AppColors.containerBorderColor,
                 showBorder: true,
                 //image and texts
                 child: Column(
@@ -111,7 +113,7 @@ class HorizontalEventCard extends StatelessWidget {
                             children: [
                               Icon(
                                 Icons.location_on,
-                                color: AppColors.secondaryColor,
+                                color: AppColors.primaryColor,
                                 size: AppFontSizes.body,
                               ),
                               SizedBox(width: screenWidth * 0.010),
@@ -125,8 +127,8 @@ class HorizontalEventCard extends StatelessWidget {
                               ),
                               SizedBox(width: screenWidth * 0.030),
                               Icon(
-                                Icons.calendar_month,
-                                color: AppColors.secondaryColor,
+                                Iconsax.calendar,
+                                color: AppColors.primaryColor,
                                 size: AppFontSizes.small,
                               ),
                               SizedBox(width: screenWidth * 0.010),
@@ -138,15 +140,16 @@ class HorizontalEventCard extends StatelessWidget {
                                   color: AppColors.IconColors,
                                 ),
                               ),
-                              // Text(
-                              //   '\$30',
-                              //   style: TextStyle(
-                              //     fontFamily: AppFontsFamily.poppins,
-                              //     fontSize: AppFontSizes.body,
-                              //     fontWeight: FontWeight.bold,
-                              //     color: AppColors.secondaryColor,
-                              //   ),
-                              // ),
+                              const Spacer(),
+                              Text(
+                                '\$20',
+                                style: TextStyle(
+                                  fontFamily: AppFontsFamily.poppins,
+                                  fontSize: AppFontSizes.body,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.primaryColor,
+                                ),
+                              ),
                             ],
                           ),
                         ],

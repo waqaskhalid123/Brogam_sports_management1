@@ -2,7 +2,6 @@ import 'package:brogam/widgets/CutomActionButton/ActionButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 import '../../../../services/constants/constants.dart';
 import '../../../../widgets/CustomDropDown/custom_drop_down.dart';
 import '../../../../widgets/CutomTextField/custom_textField.dart';
@@ -22,9 +21,21 @@ class _AddCardScreenState extends State<AddCardScreen> {
 
   // Dropdown options
   final List<String> months = [
-    "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12"
   ];
-  final List<String> years = List.generate(20, (index) => (DateTime.now().year + index).toString());
+  final List<String> years =
+      List.generate(20, (index) => (DateTime.now().year + index).toString());
   bool isDefault = true;
   // Selected values
   String? selectedMonth;
@@ -50,7 +61,10 @@ class _AddCardScreenState extends State<AddCardScreen> {
         child: Column(
           children: [
             // Card preview
-            Image.asset("assets/images/credit_card.png", width: double.infinity, ),
+            Image.asset(
+              "assets/images/credit_card.png",
+              width: double.infinity,
+            ),
             // Form fields
             CustomField(
               controller: nameController,
@@ -66,9 +80,9 @@ class _AddCardScreenState extends State<AddCardScreen> {
               hintText: "Card Number",
               keyboardType: TextInputType.number,
               validator: (value) =>
-              value == null || value.isEmpty || value.length < 16
-                  ? "Please enter a valid card number"
-                  : null,
+                  value == null || value.isEmpty || value.length < 16
+                      ? "Please enter a valid card number"
+                      : null,
             ),
             const SizedBox(height: 16),
             Row(
@@ -106,13 +120,11 @@ class _AddCardScreenState extends State<AddCardScreen> {
               hintText: "CVC",
               keyboardType: TextInputType.number,
               validator: (value) =>
-              value == null || value.isEmpty || value.length < 3
-                  ? "Invalid CVC"
-                  : null,
+                  value == null || value.isEmpty || value.length < 3
+                      ? "Invalid CVC"
+                      : null,
             ),
             const SizedBox(height: 16),
-
-            // Set as default switch
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -137,18 +149,23 @@ class _AddCardScreenState extends State<AddCardScreen> {
             const SizedBox(height: 16),
 
             // Add Card button
-            ActionButton(text: "Add Card", backgroundColor: AppColors.primaryColor, textColor: AppColors.white, borderColor: AppColors.primaryColor, onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const BookingSuccessScreen(),));
-            }, borderRadius: 25,)
+            ActionButton(
+              text: "Add Card",
+              backgroundColor: AppColors.primaryColor,
+              textColor: AppColors.white,
+              borderColor: AppColors.primaryColor,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BookingSuccessScreen(),
+                    ));
+              },
+              borderRadius: 25,
+            )
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-

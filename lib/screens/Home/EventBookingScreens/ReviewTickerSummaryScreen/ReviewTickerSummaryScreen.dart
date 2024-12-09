@@ -1,14 +1,19 @@
+import 'package:brogam/screens/Home/EventBookingScreens/BookingSuccessScreen/booking_success_screen.dart';
 import 'package:brogam/services/constants/constants.dart';
 import 'package:brogam/widgets/CutomActionButton/ActionButton.dart';
+import 'package:brogam/widgets/DottedDivider/dotted_divider.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 import '../../../../widgets/VerticalEventCard/vertical_event_card.dart';
 import '../AddCardScreen/add_card_screen.dart';
 
 class ReviewTicketSummaryScreen extends StatefulWidget {
-  const ReviewTicketSummaryScreen({super.key});
+  bool isPaid;
+  ReviewTicketSummaryScreen({super.key, required this.isPaid});
 
   @override
-  _ReviewTicketSummaryScreenState createState() => _ReviewTicketSummaryScreenState();
+  _ReviewTicketSummaryScreenState createState() =>
+      _ReviewTicketSummaryScreenState();
 }
 
 class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
@@ -17,6 +22,7 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: AppColors.screenBgColor,
@@ -26,6 +32,7 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
+            Navigator.pop(context);
           },
         ),
         title: const Text(
@@ -58,7 +65,21 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
                   const SizedBox(height: 16),
                   _buildMorePaymentOptions(),
                   const SizedBox(height: 16),
-                  ActionButton(text: "Book Slow", backgroundColor: AppColors.primaryColor, textColor: AppColors.white, borderColor: AppColors.primaryColor, onPressed: (){}, borderRadius: 25,)
+                  ActionButton(
+                    text: "Book Slot",
+                    backgroundColor: AppColors.primaryColor,
+                    textColor: AppColors.white,
+                    borderColor: AppColors.primaryColor,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BookingSuccessScreen(),
+                        ),
+                      );
+                    },
+                    borderRadius: 25,
+                  )
                 ],
               ),
             ),
@@ -109,6 +130,12 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
         _buildDetailRow('Full Name', 'Sofia Anderson'),
         _buildDetailRow('Phone Number', '+1 (208) 555-0112'),
         _buildDetailRow('Email', 'sofia@email.com'),
+        const SizedBox(
+          height: 10,
+        ),
+        Divider(
+          color: Colors.grey.shade500,
+        ),
       ],
     );
   }
@@ -118,8 +145,25 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
       children: [
         _buildDetailRow('1 Ticket', '\$20', isBold: true),
         _buildDetailRow('Service Fees', '\$2', isBold: true),
-        Divider(color: Colors.grey.shade300),
+        const SizedBox(
+          height: 10,
+        ),
+        DottedDivider(
+          height: 1,
+          dotWidth: 3,
+          spacing: 15.0,
+          color: Colors.grey[300]!,
+        ),
+        const SizedBox(
+          height: 10,
+        ),
         _buildDetailRow('Total', '\$22', isBold: true),
+        const SizedBox(
+          height: 8,
+        ),
+        Divider(
+          color: Colors.grey.shade500,
+        ),
       ],
     );
   }
@@ -137,9 +181,10 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
           ),
         ),
         Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           child: ListTile(
-            leading: const Icon(Icons.credit_card, color: Colors.grey),
+            leading: Icon(Iconsax.card_copy, color: AppColors.black),
             title: const Text(
               'Add Card',
               style: TextStyle(
@@ -147,9 +192,14 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
                 color: Colors.black,
               ),
             ),
-            trailing:  const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+            trailing:
+                Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.black),
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCardScreen(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddCardScreen(),
+                  ));
             },
           ),
         ),
@@ -170,35 +220,55 @@ class _ReviewTicketSummaryScreenState extends State<ReviewTicketSummaryScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        _buildPaymentOption('Paypal', Icons.paypal),
-        _buildPaymentOption('Apple Pay', Icons.apple),
-        _buildPaymentOption('Stripe', Icons.credit_card),
-        _buildPaymentOption('Google Play', Icons.android),
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 6.0,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Column(
+            children: [
+              _buildPaymentOption('Paypal', 'assets/images/paypal.png'),
+              _buildPaymentOption('Apple Pay', 'assets/images/apple.png'),
+              _buildPaymentOption('Stripe', 'assets/images/stripe.png'),
+              _buildPaymentOption('Google Play', 'assets/images/google.png'),
+            ],
+          ),
+        )
       ],
     );
   }
 
-  Widget _buildPaymentOption(String label, IconData icon) {
-    return ListTile(
-      leading: Icon(icon, color: Colors.grey),
-      title: Text(
-        label,
-        style: const  TextStyle(
-          fontFamily: AppFontsFamily.poppins,
-          fontSize: AppFontSizes.body,
-          color: Colors.black,
+  Widget _buildPaymentOption(String label, String image) {
+    {
+      return ListTile(
+        leading: Image.asset(image, width: 30, height: 30),
+        title: Text(
+          label,
+          style: const TextStyle(
+            fontFamily: AppFontsFamily.poppins,
+            fontSize: AppFontSizes.body,
+            color: Colors.black,
+          ),
         ),
-      ),
-      trailing: Radio<String>(
-        value: label,
-        activeColor: AppColors.primaryColor,
-        groupValue: _selectedPayment,
-        onChanged: (value) {
-          setState(() {
-            _selectedPayment = value!;
-          });
-        },
-      ),
-    );
+        trailing: Radio<String>(
+          value: label,
+          activeColor: AppColors.primaryColor,
+          groupValue: _selectedPayment,
+          onChanged: (value) {
+            setState(() {
+              _selectedPayment = value!;
+            });
+          },
+        ),
+      );
+    }
   }
 }

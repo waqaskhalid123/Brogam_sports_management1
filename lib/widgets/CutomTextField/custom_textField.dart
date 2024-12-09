@@ -21,7 +21,8 @@ class CustomField extends StatelessWidget {
   final Color? hintTextColor; // Optional hint text color parameter
   final VoidCallback? onTap;
 
-  const CustomField({super.key,
+  const CustomField({
+    super.key,
     required this.controller,
     required this.hintText,
     required this.keyboardType,
@@ -51,7 +52,7 @@ class CustomField extends StatelessWidget {
           height: height ?? 55,
           child: TextFormField(
             maxLines: maxLine ?? 1,
-            minLines: 1,
+            // minLines: 1,
             validator: validator,
             controller: controller,
             keyboardType: keyboardType,
@@ -63,20 +64,27 @@ class CustomField extends StatelessWidget {
               contentPadding: const EdgeInsets.all(20),
               hintText: hintText,
               hintStyle: TextStyle(
-                color: hintTextColor ?? AppColors.lighyGreyColor1,
+                color: hintTextColor ?? AppColors.IconColors,
                 fontFamily: AppFontsFamily.poppins,
               ),
               filled: true,
               fillColor: fillColor ?? AppColors.textFiledColor,
-              // enabledBorder: InputBorder.none,
-              border: OutlineInputBorder(
+
+              // Default border when TextFormField is not focused
+              enabledBorder: OutlineInputBorder(
                 borderRadius: borderRadius ?? BorderRadius.circular(25),
+                borderSide: BorderSide(
+                  color: borderColor ?? AppColors.lighyGreyColor1,
+                  width: 0.5,
+                ),
               ),
+
+              // Border when TextFormField is focused
               focusedBorder: OutlineInputBorder(
                 borderRadius: borderRadius ?? BorderRadius.circular(25),
                 borderSide: BorderSide(
-                  color: borderColor ?? AppColors.primaryColor,
-                  width: 0.5, // Thin border width
+                  color: borderColor ?? AppColors.lighyGreyColor1,
+                  width: 1.0, // Slightly thicker when focused
                 ),
               ),
               suffixIcon: suffixIcon,

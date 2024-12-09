@@ -1,5 +1,7 @@
+import 'package:brogam/providers/SignUpScreenProvider.dart';
 import 'package:brogam/screens/Authentication/LoginScreen/login_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../generated/assets.dart';
 import '../../../services/constants/constants.dart';
@@ -41,7 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         
                   CustomToggle(
                     initialSelectedIndex: 0,
-                    labels: ['Public User', 'Organizer'],
+                    labels: const ['Public User', 'Organizer'],
                     onTap: (int selectedIndex) {
                       print("Selected index: $selectedIndex");
                     },
@@ -90,24 +92,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   PhoneNumberField(),
                   SizedBox(height: screenHeight * 0.015),
                   CustomField(
+                    obscureText: !context.watch<SignUpScreenProvider>().isPasswordVisible,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Email is required";
+                        return "Password is required";
                       }
                       return null;
                     },
                     prefixIcon: const Icon(Icons.lock),
                     controller: _passwordController,
-                    hintText: 'password',
+                    hintText: 'Password',
                     keyboardType: TextInputType.text,
-                    suffixIcon: IconButton(
-                      icon: const Icon(
-                        true
-                            ? Icons.visibility_rounded
-                            : Icons.visibility_off_rounded,
-                      ),
-                      onPressed: () {
-                        setState(() {});
+                    suffixIcon: Consumer<SignUpScreenProvider>(
+                      builder: (context, provider, child) {
+                        return IconButton(
+                          icon: Icon(
+                            provider.isPasswordVisible
+                                ? Icons.visibility_rounded
+                                : Icons.visibility_off_rounded,
+                          ),
+                          onPressed: provider.togglePasswordVisibility,
+                        );
                       },
                     ),
                   ),

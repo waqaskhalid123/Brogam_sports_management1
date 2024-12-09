@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 import '../../services/constants/constants.dart';
 
@@ -20,13 +21,13 @@ class PhoneNumberField extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: AppColors.textFiledColor,
-                borderRadius: BorderRadius.circular(20.0),
+                borderRadius: BorderRadius.circular(25.0),
                 border: Border.all(color: borderColor ?? Colors.transparent),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: DropdownButton<String>(
                 value: _countryCodeController.text,
-                icon: const Icon(Icons.arrow_drop_down),
+                icon: const Icon(Iconsax.arrow_down),
                 onChanged: (String? newValue) {
                   _countryCodeController.text = newValue!;
                 },
@@ -50,7 +51,7 @@ class PhoneNumberField extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.textFiledColor,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(25),
                   border: Border.all(color: borderColor ?? Colors.transparent),
                 ),
                 child: TextField(
@@ -59,7 +60,7 @@ class PhoneNumberField extends StatelessWidget {
                   decoration: InputDecoration(
                     hintText: "Phone Number",
                     hintStyle: TextStyle(
-                        color: AppColors.lighyGreyColor1,
+                        color: AppColors.IconColors,
                         fontFamily: AppFontsFamily.poppins),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(

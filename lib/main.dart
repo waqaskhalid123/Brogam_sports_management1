@@ -1,11 +1,19 @@
+import 'package:brogam/providers/EventScreenProvider.dart';
 import 'package:brogam/providers/HomeScreenProvider.dart';
 import 'package:brogam/providers/LocationProvider.dart';
+import 'package:brogam/providers/LoginScreenProvider.dart';
 import 'package:brogam/providers/NavigationProvider.dart';
 import 'package:brogam/providers/OnboardingProvider.dart';
+import 'package:brogam/providers/OraganizerProvider/EventPageBuilderProvider.dart';
+import 'package:brogam/providers/OraganizerProvider/EventTimeDateProvider.dart';
 import 'package:brogam/providers/ProfileProvider.dart';
+import 'package:brogam/providers/SignUpScreenProvider.dart';
 import 'package:brogam/providers/TicketCounterProvider.dart';
 import 'package:brogam/providers/bookingScreenProvider.dart';
 import 'package:brogam/screens/Authentication/OnboardingScreen/SplashScreen/SplashScreen.dart';
+import 'package:brogam/screens/Organizer/OrganizerEventsScreen/AddEventPageBuilder/AddEventPageBuilder.dart';
+import 'package:brogam/screens/Organizer/OrganizerEventsScreen/organizer_event_screen.dart';
+import 'package:brogam/screens/Organizer/OrganizerHomeScreen/organizer_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Providers/SplashProvider.dart';
@@ -30,6 +38,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NavigationProvider()),
         ChangeNotifierProvider(create: (_) => Bookingscreenprovider()),
         ChangeNotifierProvider(create: (_) => HomeScreenProvider()),
+        ChangeNotifierProvider(create: (_) => EventscreenProvider()),
+        ChangeNotifierProvider(create: (_) => LoginScreenProvider()),
+        ChangeNotifierProvider(create: (_) => SignUpScreenProvider()),
+        ChangeNotifierProvider(create: (_) => EventPageBuilderProvider()),
+        ChangeNotifierProvider(create: (_) => EventTimeDateProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -38,7 +51,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: false,
         ),
-        home: const Splashscreen(),
+        home:  OrganizerHomeScreen(),
       ),
     );
   }

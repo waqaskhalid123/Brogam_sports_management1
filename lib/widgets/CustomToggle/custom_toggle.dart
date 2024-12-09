@@ -35,6 +35,7 @@ class _CustomToggleState extends State<CustomToggle> {
       margin: EdgeInsets.symmetric(horizontal: screenWidth * 0.03),
       decoration: BoxDecoration(
         color: AppColors.white,
+        border: Border.all(color : AppColors.containerBorderColor),
         borderRadius: BorderRadius.circular(10),
       ),
       padding: EdgeInsets.symmetric(vertical: screenWidth * 0.02, horizontal: 0),

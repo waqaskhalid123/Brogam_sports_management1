@@ -1,12 +1,13 @@
+import 'package:brogam/screens/Home/ExploreScreen/ExploreScreen.dart';
 import 'package:brogam/services/constants/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:provider/provider.dart';
 import '../../../../providers/ProfileProvider.dart';
 import '../../../../widgets/BottomNav/bottomnav.dart';
 import '../../../../widgets/LogoutButton/LogoutButton.dart';
 import '../../BookingsScreen/BookingsScreen.dart';
-import '../../EventScreen/EventScreen.dart';
 import '../../HomeScreen/home_screen.dart';
 
 class ProfileDetailsScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const EventScreen(),
+    ExploreScreen(),
     BookingsScreen(),
     const ProfileDetailsScreen(),
   ];
@@ -63,7 +64,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                       children: [
                         const CircleAvatar(
                           radius: 35,
-                          backgroundImage: AssetImage("assets/images/card2.png"),
+                          backgroundImage:
+                              AssetImage("assets/images/card2.png"),
                         ),
                         const SizedBox(width: 16),
                         Column(
@@ -114,13 +116,13 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   children: [
                     _buildListTile(
                       title: 'Card Details',
-                      icon: CupertinoIcons.creditcard,
+                      icon: Iconsax.card_copy,
                       onTap: () {},
                     ),
                     _buildDivider(),
                     _buildListTile(
                       title: 'Change Password',
-                      icon: CupertinoIcons.lock,
+                      icon: Iconsax.lock_copy,
                       onTap: () {
                         profileProvider.ChangePasswordNaviagtion(context);
                       },
@@ -132,7 +134,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   children: [
                     _buildListTile(
                       title: 'Notification Settings',
-                      icon: CupertinoIcons.bell,
+                      icon: Iconsax.notification_copy,
                       onTap: () {
                         profileProvider.NotificationSettingNaviagtion(context);
                       },
@@ -144,8 +146,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
-                            children: const [
-                              Icon(CupertinoIcons.location, color: Colors.black),
+                            children: [
+                              Icon(Iconsax.location_copy, color: Colors.black),
                               SizedBox(width: 16),
                               Text(
                                 'Location',
@@ -156,7 +158,7 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                           Transform.scale(
                             scale: 0.8,
                             child: CupertinoSwitch(
-                              activeColor: AppColors.secondaryColor,
+                              activeColor: AppColors.primaryColor,
                               value: isLocationEnabled,
                               onChanged: (value) {
                                 setState(() {
@@ -175,19 +177,19 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
                   children: [
                     _buildListTile(
                       title: 'Help & Support',
-                      icon: CupertinoIcons.question_circle,
+                      icon: Iconsax.message_question_copy,
                       onTap: () {},
                     ),
                     _buildDivider(),
                     _buildListTile(
                       title: 'FAQs',
-                      icon: CupertinoIcons.info_circle,
+                      icon: Icons.question_mark_rounded,
                       onTap: () {},
                     ),
                     _buildDivider(),
                     _buildListTile(
                       title: 'Privacy Policy',
-                      icon: CupertinoIcons.lock_shield,
+                      icon: Iconsax.shield_security,
                       onTap: () {},
                     ),
                   ],
@@ -253,7 +255,8 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
       leading: Icon(icon, color: Colors.black),
       title: Text(
         title,
-        style:  TextStyle(fontSize: AppFontSizes.body, fontFamily: AppFontsFamily.poppins),
+        style: TextStyle(
+            fontSize: AppFontSizes.body, fontFamily: AppFontsFamily.poppins),
       ),
       trailing: const Icon(CupertinoIcons.forward, color: Colors.grey),
       onTap: onTap,
@@ -268,4 +271,3 @@ class _ProfileDetailsScreenState extends State<ProfileDetailsScreen> {
     );
   }
 }
-

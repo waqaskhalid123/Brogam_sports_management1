@@ -125,7 +125,7 @@ class _EditProfileState extends State<EditProfile> {
                   child: CustomDropdownField(
                     value: selectedCountry,
                     hintText: "Country",
-                    items: ["United States", "Canada", "India"],
+                    items: const ["United States", "Canada", "India"],
                     onChanged: (value) {
                       setState(() {
                         selectedCountry = value!;
@@ -138,7 +138,7 @@ class _EditProfileState extends State<EditProfile> {
                   child: CustomDropdownField(
                     value: selectedGender,
                     hintText: "Gender",
-                    items: ["Male", "Female", "Other"],
+                    items: const ["Male", "Female", "Other"],
                     onChanged: (value) {
                       setState(() {
                         selectedGender = value!;

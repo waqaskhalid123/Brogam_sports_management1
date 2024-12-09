@@ -1,18 +1,23 @@
 import 'package:brogam/providers/TicketCounterProvider.dart';
+import 'package:brogam/screens/Home/MultiplePersonDetailScreen/multiple_person_detail_tab.dart';
 import 'package:brogam/services/constants/constants.dart';
 import 'package:brogam/widgets/CurvedEdges/curved_edges.dart';
 import 'package:brogam/widgets/CustomRoundedContainer/custom_rounded_container.dart';
 import 'package:brogam/widgets/CutomActionButton/ActionButton.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:provider/provider.dart';
+import '../../../../widgets/ImageCrousel/image_crousel.dart';
 import '../../../../widgets/ReadMoreWidget/read_more_widget.dart';
-import '../EventBookingDetailScreen/event_booking_detail_screen.dart';
+import '../SinglePersonDetailScreen/single_person_detail_screen.dart';
 
 class EventDetailScreen extends StatefulWidget {
-  const EventDetailScreen({
-    super.key,
-  });
-
+  final bool isPaid;
+  bool? isOrganizer;
+  EventDetailScreen(
+      {super.key, required this.isPaid, this.isOrganizer = false});
   @override
   State<EventDetailScreen> createState() => _EventDetailScreenState();
 }
@@ -22,7 +27,6 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: AppColors.screenBgColor,
 
@@ -72,16 +76,46 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
               ],
             ),
             const Spacer(),
-            ActionButton(
-                text: 'Buy Tickets',
-                backgroundColor: AppColors.primaryColor,
-                textColor: AppColors.white,
-                borderColor: AppColors.primaryColor,
-                buttonWidth: screenWidth * 0.5,
-                borderRadius: 25,
-                onPressed: () {
-                  _openTicketBookingDrawer(context);
-                })
+            widget.isOrganizer == true
+                ? Row(
+                    children: [
+                      ActionButton(
+                          text: 'Delete',
+                          backgroundColor: AppColors.white,
+                          textColor: AppColors.primaryColor,
+                          borderColor: AppColors.primaryColor,
+                          buttonWidth: screenWidth * 0.3,
+                          borderRadius: 20,
+                          onPressed: () {
+                            _openTicketBookingDrawer(context,
+                                isPaid: widget.isPaid);
+                          }),
+                      SizedBox(
+                        width: screenWidth * 0.02,
+                      ),
+                      ActionButton(
+                          text: 'Edit',
+                          backgroundColor: AppColors.primaryColor,
+                          textColor: AppColors.white,
+                          borderColor: AppColors.primaryColor,
+                          buttonWidth: screenWidth * 0.3,
+                          borderRadius: 20,
+                          onPressed: () {
+                            _openTicketBookingDrawer(context,
+                                isPaid: widget.isPaid);
+                          })
+                    ],
+                  )
+                : ActionButton(
+                    text: 'Buy Tickets',
+                    backgroundColor: AppColors.primaryColor,
+                    textColor: AppColors.white,
+                    borderColor: AppColors.primaryColor,
+                    buttonWidth: screenWidth * 0.5,
+                    borderRadius: 25,
+                    onPressed: () {
+                      _openTicketBookingDrawer(context, isPaid: widget.isPaid);
+                    })
           ],
         ),
       ),
@@ -97,12 +131,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                 child: Container(
                   height: screenHeight * 0.30,
                   width: screenWidth,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/card1.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  child: ImageCrousel(),
                 ),
               ),
               // Back Arrow and Share Icon
@@ -237,7 +266,67 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: screenHeight * 0.005),
+                SizedBox(height: screenHeight * 0.01),
+                widget.isOrganizer == false || widget.isOrganizer == null
+                    ? Container()
+                    : Row(
+                        children: [
+                          SizedBox(height: screenHeight * 0.01),
+                          Icon(
+                            Icons.remove_red_eye,
+                            color: AppColors.black,
+                            size: AppFontSizes.body,
+                          ),
+                          SizedBox(width: screenWidth * 0.010),
+                          Text(
+                            '1k Views',
+                            style: TextStyle(
+                              fontFamily: AppFontsFamily.poppins,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                            ),
+                          ),
+                          SizedBox(width: screenWidth * 0.030),
+                          Icon(
+                            Icons.airplane_ticket_outlined,
+                            color: AppColors.black,
+                            size: AppFontSizes.body,
+                          ),
+                          SizedBox(width: screenWidth * 0.010),
+                          Text(
+                            '200 Tickets sold',
+                            style: TextStyle(
+                              fontFamily: AppFontsFamily.poppins,
+                              fontSize: 13,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                SizedBox(height: screenHeight * 0.01),
+                Row(
+                  children: [
+                    Text(
+                      'View Participants',
+                      style: TextStyle(
+                        fontFamily: AppFontsFamily.poppins,
+                        fontSize: AppFontSizes.body1,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.secondaryColor,
+                        decoration: TextDecoration.underline, // Adds underline
+                      ),
+                    ),
+                    SizedBox(width: 3),
+                    Icon(
+                      CupertinoIcons.arrow_right,
+                      color: AppColors.secondaryColor,
+                      size: 18,
+                    )
+                  ],
+                ),
+                SizedBox(height: screenHeight * 0.01),
                 Divider(
                   color: AppColors.IconColors,
                 ),
@@ -306,6 +395,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                             fontSize: AppFontSizes.body1,
                             fontWeight: FontWeight.bold,
                             color: AppColors.secondaryColor,
+                            decoration: TextDecoration.underline,
                           ),
                         ),
                         SizedBox(width: screenWidth * 0.010),
@@ -327,10 +417,14 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15),
                     ),
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/map.png'),
-                      fit: BoxFit.cover,
+                  ),
+                  child: const GoogleMap(
+                    initialCameraPosition: const CameraPosition(
+                      target: LatLng(37.42796133580664, -122.085749655962),
+                      zoom: 10.0,
                     ),
+                    myLocationEnabled: true,
+                    zoomControlsEnabled: false,
                   ),
                 ),
               ],
@@ -341,7 +435,7 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
     );
   }
 
-  void _openTicketBookingDrawer(BuildContext context) {
+  void _openTicketBookingDrawer(BuildContext context, {required bool isPaid}) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -431,18 +525,34 @@ class _EventDetailScreenState extends State<EventDetailScreen> {
                   ],
                 ),
                 ActionButton(
-                    text: "Proceed To Booking",
-                    backgroundColor: AppColors.primaryColor,
-                    textColor: AppColors.white,
-                    borderColor: AppColors.primaryColor,
-                    borderRadius: 25,
-                    onPressed: () {
+                  text: "Proceed To Booking",
+                  backgroundColor: AppColors.primaryColor,
+                  textColor: AppColors.white,
+                  borderColor: AppColors.primaryColor,
+                  borderRadius: 25,
+                  onPressed: () {
+                    final ticketCount = context
+                        .read<TicketCounterProvider>()
+                        .ticketCount; // Get ticket count
+                    if (ticketCount == 1) {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const EventBookingDetailScreen(),
-                          ));
-                    })
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              SinglePersonDetailScreen(isPaid: isPaid),
+                        ),
+                      );
+                    } else if (ticketCount > 1) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MultiplePersonDetailTab(
+                              tabCount: ticketCount, isPaid: isPaid),
+                        ),
+                      );
+                    }
+                  },
+                ),
               ],
             ),
           ),

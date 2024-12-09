@@ -21,6 +21,7 @@ class CustomDropdownField extends StatelessWidget {
       height: 55,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
+        border: Border.all(color: AppColors.lighyGreyColor1),
         color: AppColors.textFiledColor,
         borderRadius: BorderRadius.circular(25),
       ),

@@ -14,7 +14,8 @@ class ActionButton extends StatelessWidget {
   final FontWeight? fontweight;
 
   const ActionButton(
-      {super.key, required this.text,
+      {super.key,
+      required this.text,
       required this.backgroundColor,
       required this.textColor,
       required this.borderColor,
@@ -44,7 +45,7 @@ class ActionButton extends StatelessWidget {
                 fontSize: AppFontSizes.subtitle1,
                 color: textColor,
                 fontFamily: AppFontsFamily.poppins,
-                fontWeight: fontweight),
+                fontWeight: fontweight ?? FontWeight.bold),
           ),
         ),
       ),

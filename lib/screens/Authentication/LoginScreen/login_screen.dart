@@ -1,7 +1,9 @@
 import 'package:brogam/screens/Authentication/SignUpScreen/signup_screen.dart';
 import 'package:brogam/screens/Home/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../generated/assets.dart';
+import '../../../providers/LoginScreenProvider.dart';
 import '../../../services/constants/constants.dart';
 import '../../../widgets/CustomToggle/custom_toggle.dart';
 import '../../../widgets/CutomActionButton/ActionButton.dart';
@@ -18,11 +20,12 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _fullNameController = TextEditingController();
+
   bool _isChecked = false;
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
@@ -39,13 +42,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: screenHeight * 0.03),
 
-                  CustomToggle(
-                    initialSelectedIndex: 0,
-                    labels: ['Public User', 'Organizer'],
-                    onTap: (int selectedIndex) {
-                      print("Selected index: $selectedIndex");
-                    },
+                  SizedBox(
+                    width: screenWidth * 0.75,
+                    child: CustomToggle(
+                      initialSelectedIndex: 0,
+                      labels: const ['Public User', 'Organizer'],
+                      onTap: (int selectedIndex) {
+                        print("Selected index: $selectedIndex");
+                      },
+                    ),
                   ),
+
                   Padding(
                     padding: EdgeInsets.only(top: screenHeight * 0.02),
                     child: const  Align(
@@ -75,25 +82,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   SizedBox(height: screenHeight * 0.015),
                   CustomField(
-                    obscureText: true,
+                    obscureText: !context.watch<LoginScreenProvider>().isPasswordVisible,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return "Email is required";
+                        return "Password is required";
                       }
                       return null;
                     },
                     prefixIcon: const Icon(Icons.lock),
                     controller: _passwordController,
-                    hintText: 'password',
+                    hintText: 'Password',
                     keyboardType: TextInputType.text,
-                    suffixIcon: IconButton(
-                      icon: const Icon(
-                        false
-                            ? Icons.visibility_rounded
-                            : Icons.visibility_off_rounded,
-                      ),
-                      onPressed: () {
-                        setState(() {});
+                    suffixIcon: Consumer<LoginScreenProvider>(
+                      builder: (context, provider, child) {
+                        return IconButton(
+                          icon: Icon(
+                            provider.isPasswordVisible
+                                ? Icons.visibility_rounded
+                                : Icons.visibility_off_rounded,
+                          ),
+                          onPressed: provider.togglePasswordVisibility,
+                        );
                       },
                     ),
                   ),
